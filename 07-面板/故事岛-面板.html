@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>故事岛 · 总览面板</title>
+<style>
+:root{
+  --sky1:#1a2235; --sky2:#2c2740; --sky3:#5a3b4d; --sky4:#a85a3c;
+  --ink:#ece6da; --ink2:#b9b2a4; --muted:#7e8597;
+  --surface:rgba(20,24,38,.62); --surface2:rgba(30,35,52,.55);
+  --line:rgba(255,255,255,.09); --accent:#e0a64a;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  color:var(--ink);background:linear-gradient(160deg,var(--sky1) 0%,var(--sky2) 38%,var(--sky3) 72%,var(--sky4) 130%);
+  background-attachment:fixed;min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 20px 60px}
+a{color:var(--accent)}
+.muted{color:var(--muted);font-size:13px}
+.lbl{display:inline-block;color:var(--muted);font-size:11px;letter-spacing:.5px;margin-right:6px;
+  border:1px solid var(--line);border-radius:5px;padding:0 5px;vertical-align:1px}
+
+/* hero */
+.hero{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 18px;
+  border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:6px}
+.hero .day{font-size:13px;letter-spacing:3px;color:var(--accent);text-transform:uppercase}
+.hero .clock{font-size:46px;font-weight:700;letter-spacing:1px;line-height:1.05;margin:2px 0}
+.hero .date{font-size:15px;color:var(--ink2);margin-bottom:6px}
+.hero .present{font-size:13px;color:var(--ink2);margin-left:auto;text-align:right;max-width:48%}
+.atmo{font-size:15px;color:var(--ink2);font-style:italic;margin:14px 0 4px;
+  border-left:3px solid var(--accent);padding:4px 0 4px 14px}
+.alert{margin-top:12px;padding:10px 14px;border-radius:9px;background:rgba(214,88,79,.16);
+  border:1px solid rgba(214,88,79,.4);font-size:14px}
+.alert.soft{background:rgba(224,166,74,.13);border-color:rgba(224,166,74,.35)}
+
+h2.sec{font-size:14px;letter-spacing:2px;color:var(--ink2);font-weight:600;
+  margin:34px 0 14px;display:flex;align-items:center;gap:10px}
+h2.sec::before{content:"";width:5px;height:16px;border-radius:3px;background:var(--accent);display:inline-block}
+
+.grid{display:grid;gap:14px}
+.cols{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 16px;
+  backdrop-filter:blur(7px)}
+
+/* character */
+.char-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.char-name{font-size:18px;font-weight:700}
+.alias{font-size:12px;color:var(--muted)}
+.badge{margin-left:auto;font-size:12px;color:#10131c;background:var(--c);
+  padding:1px 9px;border-radius:20px;font-weight:600}
+.char-loc{font-size:12.5px;color:var(--ink2);margin-bottom:8px}
+.char-now{font-size:14px;color:var(--ink);margin-bottom:10px}
+.char-motive{font-size:12.5px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:8px}
+
+/* timeline */
+.tl-block{margin-bottom:16px}
+.tl-title{font-size:12.5px;color:var(--accent);font-weight:600;letter-spacing:1px;margin-bottom:7px}
+.beat{display:flex;gap:12px;padding:3px 0;align-items:baseline}
+.beat .t{flex:0 0 46px;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.beat .b{font-size:14px;color:var(--ink)}
+.tl-wrap{border-left:2px solid var(--line);padding-left:16px;margin-left:4px}
+
+/* threads */
+ul.threads{margin:0;padding-left:0;list-style:none}
+ul.threads li{position:relative;padding:8px 0 8px 22px;border-bottom:1px solid var(--line);font-size:14px}
+ul.threads li:last-child{border-bottom:none}
+ul.threads li::before{content:"◆";position:absolute;left:2px;color:var(--accent);font-size:11px;top:11px}
+
+/* facts */
+.fact-head{display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap}
+.chip{font-size:11px;color:#10131c;background:var(--c);padding:1px 8px;border-radius:6px;font-weight:600}
+.fact-name{font-weight:600;font-size:15px}
+.fact-status{margin-left:auto;font-size:12px;color:var(--accent)}
+.fact-sum{font-size:13.5px;color:var(--ink2);margin-bottom:9px}
+.fact-prog{font-size:12.5px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:8px}
+
+/* dice */
+.dice{display:flex;flex-wrap:wrap;gap:7px}
+.die{font-size:12px;background:var(--surface2);border:1px solid var(--line);border-radius:7px;
+  padding:3px 9px;color:var(--ink2);font-variant-numeric:tabular-nums;cursor:default}
+
+/* big / chronicle */
+.big{padding:9px 0;border-bottom:1px solid var(--line)}
+.big:last-child{border-bottom:none}
+.big-t{font-weight:600}
+.big-meta{font-size:12.5px;color:var(--ink2)}
+.ch-title{color:var(--accent);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.ch-body p{margin:0 0 10px;font-size:14px;color:var(--ink2)}
+.ch-body.clamp{max-height:108px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}
+.more{background:none;border:1px solid var(--line);color:var(--ink2);border-radius:7px;
+  padding:3px 12px;font-size:12px;cursor:pointer;margin-top:4px}
+.more:hover{border-color:var(--accent);color:var(--accent)}
+.daily-prev{font-size:14px;color:var(--ink2);margin-bottom:8px}
+.daily-det summary{cursor:pointer;color:var(--accent);font-size:13px;width:max-content}
+.daily-det[open] summary{margin-bottom:8px}
+.daily-det .ch-body p{margin:0 0 10px;font-size:14px;color:var(--ink2)}
+
+footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:560px){.hero .present{max-width:100%;margin-left:0;text-align:left}.hero .clock{font-size:38px}}
+</style></head>
+<body><div class="wrap">
+
+  <div class="hero">
+    <div>
+      <div class="day">第 0 天</div>
+      <div class="clock"></div>
+      <div class="date"></div>
+    </div>
+    <div class="present">在场<br>—</div>
+  </div>
+  <div class="atmo">（未创世。创世后这里写「第N天 · 日期 · 时刻」+ 一句氛围。）</div>
+  
+
+  <h2 class="sec">在场角色</h2>
+  <div class="grid cols">
+        <div class="card char">
+          <div class="char-head">
+            <span class="char-name">角色一</span>
+            <span class="alias"></span>
+            <span class="badge" style="--c:#8a93a3">活跃          # 活跃 / 离场 / 失踪 / 死亡</span>
+          </div>
+          <div class="char-loc">📍 &quot;            # &quot;某地</div>
+          <div class="char-now">—</div>
+          <div class="char-motive"><span class="lbl">核心动机</span>ta 此刻最想要什么 / 最怕什么 / 为什么——引擎据此判定 ta 会怎么行动。例：「核心动机：要在所有人都怀疑他之前先找到真相，因为他输不起第二次。」〕</div>
+        </div>
+        <div class="card char">
+          <div class="char-head">
+            <span class="char-name">角色二</span>
+            <span class="alias"></span>
+            <span class="badge" style="--c:#8a93a3">活跃          # 活跃 / 离场 / 失踪 / 死亡</span>
+          </div>
+          <div class="char-loc">📍 &quot;            # &quot;某地</div>
+          <div class="char-now">—</div>
+          <div class="char-motive"><span class="lbl">核心动机</span>ta 此刻最想要什么 / 最怕什么 / 为什么——引擎据此判定 ta 会怎么行动。〕</div>
+        </div></div>
+
+  <h2 class="sec">最近事件</h2>
+  <div class="card tl-wrap"><div class='muted'>（暂无最近事件）</div></div>
+
+  <h2 class="sec">悬念与进行中的线</h2>
+  <div class="card"><ul class="threads"><li class='muted'>（无）</li></ul></div>
+
+  <h2 class="sec">最近 · 每日故事</h2>
+  <div class="card"><div class="muted">（还没有每日故事——每天日结后生成）</div></div>
+
+  <h2 class="sec">动态事实</h2>
+  <div class="grid cols"><div class='muted'>（暂无进行中的动态事实）</div></div>
+
+  <h2 class="sec">大事件</h2>
+  <div class="card"><div class="muted">尚无 big- 大事件。重头事件见下方时间线与悬念。</div></div>
+
+  <h2 class="sec">编年史</h2>
+  <div class="card"><div class="muted">（编年史尚未起笔）</div></div>
+
+  <h2 class="sec">最近骰点</h2>
+  <div class="card dice"><span class='muted'>（无）</span></div>
+
+  <footer>
+    <span>故事岛 · 总览面板（只读快照）</span>
+    <span>生成于 2026-06-20 16:25 · 推进后自动重建</span>
+  </footer>
+</div></body></html>

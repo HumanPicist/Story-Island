@@ -1,0 +1,8 @@
+{
+  "cssTheme": "Retroma",
+  "accentColor": "#f5c45c",
+  "theme": "moonstone",
+  "enabledCssSnippets": [
+    "精简骰点"
+  ]
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>故事岛 · 总览面板</title>
+<style>
+:root{
+  --sky1:#1a2235; --sky2:#2c2740; --sky3:#5a3b4d; --sky4:#a85a3c;
+  --ink:#ece6da; --ink2:#b9b2a4; --muted:#7e8597;
+  --surface:rgba(20,24,38,.62); --surface2:rgba(30,35,52,.55);
+  --line:rgba(255,255,255,.09); --accent:#e0a64a;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  color:var(--ink);background:linear-gradient(160deg,var(--sky1) 0%,var(--sky2) 38%,var(--sky3) 72%,var(--sky4) 130%);
+  background-attachment:fixed;min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 20px 60px}
+a{color:var(--accent)}
+.muted{color:var(--muted);font-size:13px}
+.lbl{display:inline-block;color:var(--muted);font-size:11px;letter-spacing:.5px;margin-right:6px;
+  border:1px solid var(--line);border-radius:5px;padding:0 5px;vertical-align:1px}
+
+/* hero */
+.hero{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 18px;
+  border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:6px}
+.hero .day{font-size:13px;letter-spacing:3px;color:var(--accent);text-transform:uppercase}
+.hero .clock{font-size:46px;font-weight:700;letter-spacing:1px;line-height:1.05;margin:2px 0}
+.hero .date{font-size:15px;color:var(--ink2);margin-bottom:6px}
+.hero .present{font-size:13px;color:var(--ink2);margin-left:auto;text-align:right;max-width:48%}
+.atmo{font-size:15px;color:var(--ink2);font-style:italic;margin:14px 0 4px;
+  border-left:3px solid var(--accent);padding:4px 0 4px 14px}
+.alert{margin-top:12px;padding:10px 14px;border-radius:9px;background:rgba(214,88,79,.16);
+  border:1px solid rgba(214,88,79,.4);font-size:14px}
+.alert.soft{background:rgba(224,166,74,.13);border-color:rgba(224,166,74,.35)}
+
+h2.sec{font-size:14px;letter-spacing:2px;color:var(--ink2);font-weight:600;
+  margin:34px 0 14px;display:flex;align-items:center;gap:10px}
+h2.sec::before{content:"";width:5px;height:16px;border-radius:3px;background:var(--accent);display:inline-block}
+
+.grid{display:grid;gap:14px}
+.cols{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 16px;
+  backdrop-filter:blur(7px)}
+
+/* character */
+.char-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.char-name{font-size:18px;font-weight:700}
+.alias{font-size:12px;color:var(--muted)}
+.badge{margin-left:auto;font-size:12px;color:#10131c;background:var(--c);
+  padding:1px 9px;border-radius:20px;font-weight:600}
+.char-loc{font-size:12.5px;color:var(--ink2);margin-bottom:8px}
+.char-now{font-size:14px;color:var(--ink);margin-bottom:10px}
+.char-motive{font-size:12.5px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:8px}
+.char-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;margin:2px 0 11px}
+.stat{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink2)}
+.stat-l{width:28px;flex:none}
+.stat-v{width:10px;flex:none;text-align:right;color:var(--muted)}
+.bar{flex:1;height:7px;background:rgba(255,255,255,.10);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+
+/* timeline */
+.tl-block{margin-bottom:16px}
+.tl-title{font-size:12.5px;color:var(--accent);font-weight:600;letter-spacing:1px;margin-bottom:7px}
+.beat{display:flex;gap:12px;padding:3px 0;align-items:baseline}
+.beat .t{flex:0 0 46px;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.beat .b{font-size:14px;color:var(--ink)}
+.tl-wrap{border-left:2px solid var(--line);padding-left:16px;margin-left:4px}
+
+/* threads */
+ul.threads{margin:0;padding-left:0;list-style:none}
+ul.threads li{position:relative;padding:8px 0 8px 22px;border-bottom:1px solid var(--line);font-size:14px}
+ul.threads li:last-child{border-bottom:none}
+ul.threads li::before{content:"◆";position:absolute;left:2px;color:var(--accent);font-size:11px;top:11px}
+
+/* facts */
+.fact-head{display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap}
+.chip{font-size:11px;color:#10131c;background:var(--c);padding:1px 8px;border-radius:6px;font-weight:600}
+.fact-name{font-weight:600;font-size:15px}
+.fact-status{margin-left:auto;font-size:12px;color:var(--accent)}
+.fact-sum{font-size:13.5px;color:var(--ink2);margin-bottom:9px}
+.fact-prog{font-size:12.5px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:8px}
+
+/* dice */
+.dice{display:flex;flex-wrap:wrap;gap:7px}
+.die{font-size:12px;background:var(--surface2);border:1px solid var(--line);border-radius:7px;
+  padding:3px 9px;color:var(--ink2);font-variant-numeric:tabular-nums;cursor:default}
+
+/* big / chronicle */
+.big{padding:9px 0;border-bottom:1px solid var(--line)}
+.big:last-child{border-bottom:none}
+.big-t{font-weight:600}
+.big-meta{font-size:12.5px;color:var(--ink2)}
+.ch-title{color:var(--accent);font-weight:600;letter-spacing:1px;margin-bottom:8px}
+.ch-body p{margin:0 0 10px;font-size:14px;color:var(--ink2)}
+.ch-body.clamp{max-height:108px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}
+.more{background:none;border:1px solid var(--line);color:var(--ink2);border-radius:7px;
+  padding:3px 12px;font-size:12px;cursor:pointer;margin-top:4px}
+.more:hover{border-color:var(--accent);color:var(--accent)}
+.daily-prev{font-size:14px;color:var(--ink2);margin-bottom:8px}
+.daily-det summary{cursor:pointer;color:var(--accent);font-size:13px;width:max-content}
+.daily-det[open] summary{margin-bottom:8px}
+.daily-det .ch-body p{margin:0 0 10px;font-size:14px;color:var(--ink2)}
+
+footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:560px){.hero .present{max-width:100%;margin-left:0;text-align:left}.hero .clock{font-size:38px}}
+</style></head>
+<body><div class="wrap">
+
+  <div class="hero">
+    <div>
+      <div class="day">第 6 天</div>
+      <div class="clock">00:00</div>
+      <div class="date">2027-04-17</div>
+    </div>
+    <div class="present">在场<br>—</div>
+  </div>
+  <div class="atmo"></div>
+  <div class="alert soft">🪶 未结干预：- 强力发展北边夜异常·N-03 线〔下达 第5天16:00 · 部分落地·提权未撤〕：第五夜已落地一长截（decline 反转·18:50 用眼睛接住·19-21 余震·22:50 第十二次断片没人接）·dev &quot;强力≠揭底&quot; 守住。第六夜继续生效：洞会不会再来、石头回血后会不会再归位去当那双眼睛、画面怎样继续作用在他身上。见 北边夜异常强力发展、第四人疑云。</div>
+
+  <h2 class="sec">在场角色</h2>
+  <div class="grid cols">
+        <div class="card char">
+          <div class="char-head">
+            <span class="char-name">ZYY</span>
+            <span class="alias">　歪歪 / YY / 郑寅莹</span>
+            <span class="badge" style="--c:#5fc77e">活跃</span>
+          </div>
+          <div class="char-loc">📍 荒岛</div>
+          <div class="char-now">深夜独自分守两头（22:30 独压老发同点夜烧、22:50 北边来一下一手在老发额上一手攥布回不开身没接住）；23:20 被老发劝下浅靠半小时，钉&quot;烧顶/北边再来立刻喊我&quot;。空白仍冷未泛起、禽鸟未触响（北边没鸟只虫）；头一次觉得不是一个人在守。体力中偏下、慢半拍。</div>
+          <div class="char-stats"><div class="stat"><span class="stat-l">生命</span><div class="bar"><i style="width:80%;background:#5bc77d"></i></div><span class="stat-v">4</span></div><div class="stat"><span class="stat-l">体力</span><div class="bar"><i style="width:40%;background:#e0b341"></i></div><span class="stat-v">2</span></div><div class="stat"><span class="stat-l">精神</span><div class="bar"><i style="width:60%;background:#e0b341"></i></div><span class="stat-v">3</span></div><div class="stat"><span class="stat-l">困倦</span><div class="bar"><i style="width:80%;background:#e0633f"></i></div><span class="stat-v">4</span></div></div>
+          <div class="char-motive"><span class="lbl">核心动机</span>想找回&quot;为自己走一段路&quot;的感觉；在稳定收入和真正想要的生活之间，她比谁都更早察觉不对劲，却还没下决心改变。</div>
+        </div>
+        <div class="card char">
+          <div class="char-head">
+            <span class="char-name">李石</span>
+            <span class="alias"></span>
+            <span class="badge" style="--c:#5fc77e">活跃</span>
+          </div>
+          <div class="char-loc">📍 荒岛</div>
+          <div class="char-now">20:55 被老发&quot;火北边海我俩看&quot;接管后侧靠坐垫睡死（焦虑型一松就垮得彻底），21-24 一夜睡死沉、体力开始往回长；22:50 北边来一下他反射动了下搭刀的手没醒。刀在老发右手边、手电别腰省电。手心几道沙磨破口睡里偶尔抽一下。</div>
+          <div class="char-stats"><div class="stat"><span class="stat-l">生命</span><div class="bar"><i style="width:60%;background:#e0b341"></i></div><span class="stat-v">3</span></div><div class="stat"><span class="stat-l">体力</span><div class="bar"><i style="width:40%;background:#e0b341"></i></div><span class="stat-v">2</span></div><div class="stat"><span class="stat-l">精神</span><div class="bar"><i style="width:60%;background:#e0b341"></i></div><span class="stat-v">3</span></div><div class="stat"><span class="stat-l">困倦</span><div class="bar"><i style="width:80%;background:#e0633f"></i></div><span class="stat-v">4</span></div></div>
+          <div class="char-motive"><span class="lbl">核心动机</span>想证明自己能做出点&quot;留得下来&quot;的东西；又被稳定和惰性拽着，总在&quot;再攒攒&quot;和&quot;现在就辞&quot;之间摇摆。</div>
+        </div>
+        <div class="card char">
+          <div class="char-head">
+            <span class="char-name">陈发</span>
+            <span class="alias"></span>
+            <span class="badge" style="--c:#5fc77e">活跃</span>
+          </div>
+          <div class="char-loc">📍 荒岛</div>
+          <div class="char-now">接管脱力的石头守夜（07:25 反转的再现）；夜里两顶均比昨轻、压回略高半档没续上行（三线没破·神志清楚）。23:40 独守时那桩捂了一路的旧事又在心里浮一回·没说·清醒不漏（指针冷）。半躺吊臂、把眼睛和那只耳朵分给火/北边/海。</div>
+          <div class="char-stats"><div class="stat"><span class="stat-l">生命</span><div class="bar"><i style="width:40%;background:#e0b341"></i></div><span class="stat-v">2</span></div><div class="stat"><span class="stat-l">体力</span><div class="bar"><i style="width:20%;background:#e0633f"></i></div><span class="stat-v">1</span></div><div class="stat"><span class="stat-l">精神</span><div class="bar"><i style="width:80%;background:#5bc77d"></i></div><span class="stat-v">4</span></div><div class="stat"><span class="stat-l">困倦</span><div class="bar"><i style="width:40%;background:#e0b341"></i></div><span class="stat-v">2</span></div></div>
+          <div class="char-motive"><span class="lbl">核心动机</span>把这间书店守成自己的地盘、也是朋友们的落脚处；不愿再被谁指挥，也怕辜负退伍时对自己许下的那句话。</div>
+        </div></div>
+
+  <h2 class="sec">最近事件</h2>
+  <div class="card tl-wrap"><div class="tl-block"><div class="tl-title">第5天 · 21:00–22:00 · 深第五夜·两个人当一双眼睛用</div><div class="beat"><span class="t">21:15</span><span class="b">石头睡沉了。 被老发那句&quot;眯一会儿&quot;接管之后，石头侧靠着坐垫，呼吸几口就沉下去——跟今天清晨那回一样，焦虑型的人一旦松了就垮得彻底。他左手还虚虚搭在挪到老发右手边的刀附近，手心那几道沙磨破的口子在睡里偶尔抽一下。ZYY 把薄毯往他肩上拉了拉，没惊他。</span></div><div class="beat"><span class="t">21:30</span><span class="b">趁早核一遍。 ZYY 不等深夜那一档，挪到老发左侧又核：手背贴额——20:55 压回去那半档还停在那儿，没续着往上拱；解外层纱布看引流口，渗色还浅；前臂红痕守在下午那条旧界。</span></div><div class="beat"><span class="t">22:00</span><span class="b">整点。 深第五夜头一个钟头收在一段静里——石头睡死、老发半躺替看、ZYY 守着火和那条胳膊。</span></div></div><div class="tl-block"><div class="tl-title">第5天 · 22:00–23:00 · 昨晚翻车的那个点·这回踩住了</div><div class="beat"><span class="t">22:30</span><span class="b">同一个点上，烧又顶。 跟昨晚二十二点二十差不多的钟点，老发的呼吸又粗起来，热往上拱。ZYY 几乎是听呼吸就回过神——她一直没真睡。手背贴上去，烫，是顶上来那种烫。</span></div><div class="beat"><span class="t">22:45</span><span class="b">压住了，比昨晚轻。 擦了两轮，那股顶起来的劲没像昨晚那样往低线底下钻——拢共顶了十几分钟就泄了，落回 20:55 那个略高半档的位置，没再往坏走。</span></div><div class="beat"><span class="t">22:50</span><span class="b">北边来了一下，没人接住。 就在 ZYY 一只手还按在老发额上的工夫，北偏左那一段——还是老地方——虫声短短地熄了一下，约莫两秒，比黎明前 04:35 那次还轻，然后均匀续上，没第二声。</span></div><div class="beat"><span class="t">23:00</span><span class="b">整点。 昨晚翻车那个点今晚被压住了，北边趁这工夫来了一下没人接住——深第五夜过半，三个人里只剩一个还撑着没合眼。</span></div></div><div class="tl-block"><div class="tl-title">第5天 · 23:00–24:00 · 伤员替守夜人看一程·把这一天交出去</div><div class="beat"><span class="t">23:20</span><span class="b">反过来又一回。 老发那半档压住后没再起，呼吸匀了一点。他睁眼看火边的 ZYY——她手背压着虎口那条筋提神，是撑不住又不肯倒的样子。</span></div><div class="beat"><span class="t">23:40</span><span class="b">一个人对着深夜。 营地三个人，又一回是发烧那个醒着、守着另外两个：石头缩着睡死，ZYY 半倚着浅睡，老发半躺、左臂吊着，眼睛在火、北边那条黑线、海那侧之间慢慢挪。烧退到这一档，他脑子比顶上来时清楚——清楚得让那桩他捂了一路的旧事又在心里浮上来一回。半睡里他漏过几次，清醒时一个字没认；这会儿他醒着、没人听着，他也没说。压回去，像压住胳膊上那点疼。北边静着，海上那座新坟在黑里看不见，火够烧一阵。</span></div><div class="beat"><span class="t">23:55</span><span class="b">快到点了。 东边天还黑得彻底，离天亮还远。老发给自己估了个时辰——快子时了，第五天快熬到头。他没叫醒谁。石头那口气匀着、沉着；ZYY 那半小时还没满。他守着这最后一截，把第五天一点点交出去。</span></div><div class="beat"><span class="t">24:00</span><span class="b">跨天。 第五天在火光里熬到了头——老发夜烧顶一下被压住（比昨晚轻）、北边来了一下没人接住、石头睡死回血、ZYY 被接管浅靠。没有人宣告，第六天就从这堆没熄的火上接了过去。</span></div></div></div>
+
+  <h2 class="sec">悬念与进行中的线</h2>
+  <div class="card"><ul class="threads"><li>🌙 北边夜异常·N-03 现象（dev 提权未撤）〔最后 第5天〕：四夜衰减→第四夜后安静→11:30 白天复核零证据→第五夜被主动翻开：18:50 石头头一回用眼睛接住林根一道黑挪两三步、依规没开灯先撤（decline 反转）→19-21 余震&quot;不齐&quot;40 分钟后散→22:50 第十二次极轻断片·没人用眼睛接住就过去了（石头睡死）。下一关键：第六夜它会不会再来、谁来当那双眼睛（石头回血后能否归位）。它到底是什么、为何警告仍全未解。见 第四人疑云、北边夜异常强力发展、第5天。</li><li>🔴 老发臂伤（带钟）〔最后 第5天〕：引流后白天第一档&quot;往下&quot;已坐实（06:05 白天核）；夜里两顶（20:45/22:30·22:30 正是昨晚翻车点）均比昨轻、压回略高半档没续上行（三线没破·引流约 26h·真退清未到·药不赌）。下一关键：第六天白天核会不会再让一档、还是停在这条略高半档线上。见 老发臂伤危象与野地引流、三人状态。</li><li>不明药片·用不用〔最后 第5天〕：阈值未变（红痕越界／引流不通／精神转差任一破才重提）·药名仍未对上·三线未破后继续不赌。</li><li>第四人疑云·飞机乘客线已闭环·测绘者线未解〔最后 第5天〕：浮尸已沙葬、身份沉入沙下——除非另有外部证据，飞机乘客线到此为止；先于坠机在岛的测绘者线（东南据点＋记录本＋先行作业止于 04-10＋先行者去向）仍未解。见 第四人疑云、海漂浮尸上岸、沙葬同机的人。</li><li>老发烧中漏的旧事〔最后 第5天〕：第4–5天三次漏同一冷指针（&quot;我没……没看见&quot;）·夜烧只起半档没漏、23:40 清醒里自己翻了个面也没说·指针保持冷。下一关键：第六夜深烧若再顶到顶会否再漏、会否被 N-03 勾出（暂无确证勾连·别强接）。</li><li>ZYY 的记忆空白 / 禽鸟恐惧〔最后 第5天〕：第四人的脸/名/性别仍空、对着已埋入沙里的人更冷一截；这两夜空白未泛起、禽鸟未触响（北边没鸟只虫）但仍冷在那儿。下一关键：第六夜独守或深烧再顶时会否以梦/恐慌涌上。</li><li>淡水〔最后 第5天〕：煮沸可饮约 3 瓶＋密封约 2 瓶·夜烧今夜耗得比前夜轻·仍约 3 瓶未告急——但第六天起取水/煮水该排上日程（再顶一两次烧就见底）。见 物资补给。</li><li>火料 / 手电〔最后 第5天〕：火稳料够明夜（石头午前拣的那抱垫着）；防水手电这两小时没开（石头睡·没人去林缘）·省电收着。见 物资补给。</li><li>新地标·北端礁石根上方沙葬位〔最后 第5天〕：第三块黑礁石上方一步、削白枯枝立标、背朝营地一眼能认；入夜沉在黑里未被动到。见 荒岛、沙葬同机的人。</li><li>雨天守不住林线〔最后 第1天〕：无大接水面、雨幕中林线视听全失；第5天日结已降休眠，遇雨或林线异动再复活。← 物资补给、荒岛</li></ul></div>
+
+  <h2 class="sec">最近 · 每日故事</h2>
+  <div class="card"><div class="ch-title">第5天 · 每日故事</div><div class="daily-prev">第五天没有开端。它是从昨夜那条没断的火上接过来的——同一堆料，同一个发烧的人，同一片不肯说话的北边林子，被守夜的人从四月十五日一直带进四月十六日。后半夜是一场拉锯：老发的烧一次次顶上来，又被 ZYY 一轮轮降温压回那个不…</div><details class="daily-det"><summary>展开全文 ▾</summary><div class="ch-body"><p>第五天没有开端。它是从昨夜那条没断的火上接过来的——同一堆料，同一个发烧的人，同一片不肯说话的北边林子，被守夜的人从四月十五日一直带进四月十六日。后半夜是一场拉锯：老发的烧一次次顶上来，又被 ZYY 一轮轮降温压回那个不上不下的中间位；石头先把她劝去真睡了一段，自己扛住最黑最冷的几个钟头，到黎明前那一下最险——烧又凶又急地往上拱，他不敢自己担，叫起了她。三条线一条一条过：红痕没越旧界，引流口还通，老发答得出今天几月几号、几根手指。她的手在那板认不出的药片边上停了一瞬——这是整夜里她离赌那张牌最近的一次——又收了回来。压了二十分钟，那股猛劲泄了，老发透出这一夜第一身真正的汗，烧跟着松了一档，比中间位还低一线。这是这条胳膊三天来头一回往下让了一步。可他攥着不说，只认&quot;夜里的汗会骗人，得等白天核&quot;。</p><p>天是从守了一夜的几个人眼皮底下慢慢长出来的。东边那条灰从一线撑成一面，ZYY 没再等，按昨夜钉死的次序一条条核过——渗色更浅，红痕守界，额温又低了一点点，人清楚。她把&quot;往下&quot;在白天坐实了，不是夜汗骗人；可她没让任何人高兴，只把&quot;这一档下来，不代表下一档下来&quot;钉得死死的。这一上午，营地头一回能匀出人来轮睡，而不是所有人一起硬熬。轮到撑不住的时候，反过来的事发生了：发烧那个醒着，替睡死的石头、补眠的 ZYY 看了一程火。老发半躺着，左臂吊着，眼睛留在火上、留在缩着睡的两个人身上——这是他病着以来头一回还能替这两个人做点什么。一个人对着海的时候，烧退下去脑子反倒清楚，那桩他捂了一路、半睡里漏过几次的旧事，又在心里翻了个面。他没说。没人醒着，也不是时候。</p><p>午后，海把两天前那具不肯靠岸的浮尸送了回来。涨潮一波一波把它顶上北端礁石根下的沙滩，搁住，不再随浪走。石头去辨——一个成年男人，普通便装，没穿救生衣，正好对上退潮线上那件空着的第四件。可脸被泡和鸟毁得认不出，口袋泡空，证件糊成纸浆：是飞机上的人，一个没活下来的同机的人，至于是谁，给不出。ZYY 一手压在老发额上降温，不敢回头看那群海鸥；她把&quot;便装、男的、没穿救生衣&quot;往那张怎么也想不起的脸上套，套不上——那块空白对着具体躺在那儿的人，反倒更冷。</p><p>收殓掩埋落到石头一个人身上。老发动不了，只能闭着眼交代：&quot;挖深点，别让东西刨；盖完压两块石头，立根棍，记个标。&quot;折叠刀、双手、第一天捡的那块硬塑料板当沙铲，两个钟头烈日下撅到接近一肘深，手心磨破几道，眼前白了几次。他把那个不认识的人放进坑里，磕了两下，干呕一次没吐出来，又抓回棕榈叶重新盖好脸——哪怕看不见。沙覆两层压实，四块暗色礁石压顶，一根削白的枯枝立成标。北端礁石根上方一步，从此多了一座背朝营地、远处一眼能认的新坟。他回营脱了力坐下，先漱掉嘴里的腥才咽水。老发闭着眼，只给他一句&quot;干净的活&quot;——这辈子最克制的一句谢、认、抚慰合在一处；那只一直攥着&quot;在好&quot;不说的手，松开了一点点。</p><p>可埋完人，石头没歇下来。今早&quot;虫停先撤&quot;四夜里头一次没在黎明前兑现，白天复核又扑了空——按那个先来的人自己的协议，白天没有，就该夜里看。他主动去了林缘，背靠开阔、火当后标、不进林、营地看得见——这一回不是第三天那种撇下营地冲进黑里，是把缰绳明明白白摆上桌。十八点五十,第五夜第一下来得比四夜任何一次都早、塌得也宽；他借最后一线天光，头一回用眼睛接住了林根一道黑，贴着地从左往右挪了两三步——不是风，不是只听见&quot;走开&quot;那一声。拇指搭上电筒，又被&quot;虫停先撤&quot;钉住：没开灯，往后撤，没追。那个洞慢慢被虫鸣填回，可虫声边缘&quot;不齐&quot;了好一阵。他的解谜脑想再往里凑五步、十步，抬脚那一下膝盖一软、眼前发白——身体替他把缰绳又勒了一回。ZYY 低声叫他回，他下意识应&quot;再一会儿&quot;，话出口自己愣住：和第三天临走前那句&quot;我去看一眼&quot;，几乎一个调。这回他听见了，也撤回来了。老发只给他一句&quot;你接住了，够了，剩下的等天亮&quot;。</p><p>深夜，老发的烧在昨晚翻车的同一个点上又顶了一截——这回底比昨好，十几分钟就压住了，比昨晚轻。就在 ZYY 手忙脚乱的工夫，北边来了一下极轻的断片：石头睡死，那双头一回用眼睛接住过它的眼睛闭着，谁也没接住，它就那么过去了。第五天熬到子时，没有人宣告，第六天从那堆没熄的火上接了过去。</p><p>→ 逐时见 第5天</p></div></details></div>
+
+  <h2 class="sec">动态事实</h2>
+  <div class="grid cols">
+        <div class="card fact">
+          <div class="fact-head">
+            <span class="chip" style="--c:#8a93a3">状态</span>
+            <span class="fact-name">三人状态</span>
+            <span class="fact-status">进行中</span>
+          </div>
+          <div class="fact-sum">石头：身体手心几道沙磨破皮（睡里偶尔抽一下）、生命值仍可；体力压到见底但已被睡接住、开始回血——20:55 被老发接管后侧靠坐垫睡死（焦虑型一松就垮得彻底），21-24 一夜睡死沉、22:50 北边来一下他反射动了下搭刀的手没醒。此刻仍睡（刀在老发右手边、手电别腰省电）。</div>
+          <div class="fact-prog"><span class="lbl">最近</span>[第5天 21-24·深第五夜收尾] 石头睡死回血；老发接管守夜、22:30 在昨晚翻车那点又顶一截却比昨轻、压住了（兑现&quot;比昨晚轻&quot;）、23:20 又替守让 ZYY 浅靠；22:50 北边第十二次极轻断片·能用眼睛接住的人睡死、没人接住。</div>
+        </div>
+        <div class="card fact">
+          <div class="fact-head">
+            <span class="chip" style="--c:#e0a64a">物品</span>
+            <span class="fact-name">物资补给</span>
+            <span class="fact-status">清点中</span>
+          </div>
+          <div class="fact-sum">物资＝坠机海漂捡拾（第1天退潮线）＋东南据点搜回（第4天07:18 石头携回，含三人此前完全没有的消毒能力）。下面按类列当前家底。</div>
+          <div class="fact-prog"><span class="lbl">最近</span>[第5天19-21] 深第五夜起·火稳料中等·手电首扫林缘：石头守 N-03 撤回前 20:15 掌遮短扫起身路上沙地树根约两秒无异即关（手电累计 2 次极短开·省电）；20:45 老发夜烧起半档·ZYY 降温补水第二轮·淡水续耗仍约 3 瓶未告急；ZYY 续旺火当后标火稳料中等。</div>
+        </div>
+        <div class="card fact">
+          <div class="fact-head">
+            <span class="chip" style="--c:#c98bdb">任务</span>
+            <span class="fact-name">第四人疑云</span>
+            <span class="fact-status">进行中</span>
+          </div>
+          <div class="fact-sum"></div>
+          <div class="fact-prog"><span class="lbl">最近</span>[第5天14:05–15:55] 石头独力沙葬同机的人（沙葬同机的人）：北端礁石根上方一步、棕榈叶包＋沙覆＋四块压石＋削白枝立标（&quot;第三块黑礁石上方一步&quot;为新地标）。Q8 身份未解部分沉入沙下。</div>
+        </div>
+        <div class="card fact">
+          <div class="fact-head">
+            <span class="chip" style="--c:#6fb1e0">地图</span>
+            <span class="fact-name">无名孤岛（暂称）</span>
+            <span class="fact-status">进行中</span>
+          </div>
+          <div class="fact-sum">三人迫降在一片朝南、开阔海面的弧形沙滩：沙白坡缓，退潮线散落坠机残骸。沙滩向内陆约百米撞上一道密实热带林线（高大阔叶＋藤蔓，绿得发暗、看不透）。沙滩北端一组黑礁石探进海里、海鸥群栖。四月热带午后烈日当头、海面反光刺眼；无人工痕迹、无信号。</div>
+          <div class="fact-prog"><span class="lbl">最近</span>[第5天14-16] 北端礁石根上方新地标·沙葬位（沙葬同机的人）：石头独力把上岸同机男乘客沙葬于第三块黑礁石上方一步，削白枝立标。</div>
+        </div></div>
+
+  <h2 class="sec">大事件</h2>
+  <div class="card"><div class="big"><div class="big-t">东南据点的发现</div><div class="big-meta">第4天 · 2027-04-15 · 05:20–05:55 · 石头天亮搜查东南据点，找到全岛第一份真正补给（消毒液/敷料/不明药片/止痛药/防水手电/食物），为老发的伤带来转机；并据野外作业装备推断——岛上先于三人就有人在此测绘/作业过，&#x27;空岛只有我们三个&#x27;被打破，第四人疑云从&#x27;失踪的同机者&#x27;扩成&#x27;岛上早有人&#x27;。本人去向、与沙滩第四人线索的关系，仍未解。</div></div><div class="big"><div class="big-t">海漂浮尸上岸</div><div class="big-meta">第5天 · 2027-04-16 · 13:35 · 海漂两天的浮尸午后涨潮上岸、辨明为同机遇难乘客（便装·没穿救生衣→对上第四件空救生衣），但面目泡毁+无证件、确切身份无法坐实——&#x27;同机是否还有幸存者&#x27;从希望落成&#x27;至少又一名遇难者&#x27;的冷账，ZYY 记忆空白对着具体的人更冷；尸体待收殓掩埋（卫生风险）。</div></div><div class="big"><div class="big-t">老发臂伤危象与野地引流</div><div class="big-meta">第3天 · 2027-04-14 · 13:40–14:50 · 老发臂伤感染恶化成全身危象（寒战+高烧+红线过肘），三人以无麻药、无抗生素的野地引流暂压局部脓压、但全身感染未解——求生从&#x27;守与等&#x27;转入&#x27;主动拼命&#x27;，并把&#x27;东南或藏第四人补给&#x27;逼成明日有条件预案。</div></div></div>
+
+  <h2 class="sec">编年史</h2>
+  <div class="card"><div class="ch-title">卷四 · 岛上先来的人（第4天起）</div><div class="ch-body clamp"><p>天是从两头同时亮起来的，裂开的世界也在那点光里合回了一处。石头熬过岩壁下的一夜，终于看清自己摸黑撞上的据点，从里头翻出了这座岛交给他们的第一份真东西——碘伏、敷料、止痛药、一只手电、一点食物，还有一板认不出名字的药片。这是三个人落难以来第一次握住&quot;能消毒&quot;这件事；七点十八分他走出东侧林线、卸下那一堆补给时，营地这边那两个熬了一整夜的人，和东南那个熬了一整夜的人，重新成了一处。老发那句没说完的&quot;……你这趟&quot;，骂、谢、后怕都压在里头，石头只回&quot;等你好了随便你说&quot;。</p><p>可同一只箱子里压着另一样更沉的东西。据点里成摞的测绘记录本、带刻度的标杆、印着模糊标识的硬壳盒，让&quot;岛上只有我们三个&quot;这句默认了三天的话当场碎掉：有人先于他们、带着目的，在这座岛上测过画过、扎过营——而那个人不在，据点像空了有阵子。记录本被一页页读开，把这份不安钉得更死：先行作业的日期记到四月十号，刚好停在他们坠机前两天；一条路线从东南折向营地北边那片林子，标着 N-03，页边六个字&quot;夜间勿入，虫停先撤&quot;，而通往那点的路被人反复描了又划——既想去，又怕去。那个把岛摸透的人去了哪，成了一个有时间点、却勾不掉的冷问号。下午，海又递来一样不该有的东西：北端礁石外，海鸥反常地聚成一团低旋，水面上漂着一具像人趴着的深色物体，卷在回流里不肯靠岸，认不出是谁——它撞响了 ZYY 记忆里那张&quot;多出来的票&quot;。这一次石头没有冲下水，他把刀留在营地、只到喊话的范围——独闯那趟的代价，到底教会了他给冲动套上缰绳。</p><p>这一整天的另一条线，是围着老发那条胳膊的一场拉锯。第一次真正的消毒清创起了作用，烧从&quot;在退的平台&quot;一寸寸挪到傍晚那声&quot;第一次往下&quot;，ZYY 照看者那道&quot;尽全力仍可能不够&quot;的裂缝，被一点点回填——她允许自己一点点相信做的事有用，却始终克制，把&quot;没退清&quot;钉得清清楚楚。可夜把这点松动又收了回去。石头主动揽下前半夜的主守——独闯摔过一跤之后，他头一回不是冲出去、而是稳稳接住最前那段；北边在二十点四十、二十一点五十连着响了两次，一次比一次久，&quot;虫停先撤&quot;第一次从纸上落到他们脚边，可他们没有可撤的地方。二十二点二十，老发的烧没守住低线，往回爬了；ZYY 被从补债的沉睡里拽起来，降温、补水，把那板认不出的药片重新摆到火边——仍然不敢赌。红痕没过线、引流还通、人还清楚，这三样还在，那张牌就还不能押命。午夜过去，烧顶在一个压不回去也没失控的中间位置，三个人谁都没睡。第四天就这样交了出去：它带回了救命的补给，也带回了一个先于他们就在岛上、如今生死不明的人，和一条重新往上爬、谁也不敢替它做主的烧。</p><p>第五天没有自己的开端，它是从昨夜那条不肯断的火上接过来的。后半夜那条烧顶到最险的一下又泄了下去——老发透出整夜第一身真正的汗，烧头一回往下让了一步；天亮后 ZYY 亲手把这一档&quot;往下&quot;在白光里坐实，不是夜汗骗人。可她没让谁高兴，把&quot;这一档下来、不代表下一档下来&quot;钉得死死的——照看者的踏实从来是一程一程挣来的。这一天他们头一回能在白天轮着睡，甚至出现了一个谁都没料到的反转：发着烧的伤员，反过来替两个守垮了的人看了一程火。</p><p>海在午后把欠了两天的债还了回来——那具浮尸被涨潮顶上北端的沙滩。石头去辨：一个没穿救生衣的同机男乘客，对上了退潮线那件空救生衣，却泡得认不出是谁。&quot;飞机上还有没有活人&quot;这条线，就这样落成&quot;至少又一名遇难者&quot;的冷账；ZYY 把&quot;便装、男的&quot;往那张怎么也想不起的脸上套，套不上，那块记忆空白对着具体躺着的人反倒更冷。收殓掩埋落到石头一个人身上：他在烈日下撅了两个钟头的沙，把一个不认识的人放进坑里、压上石头、立起一根削白的枝——北端从此多了一座背朝营地的新坟。老发病着只给得出一句&quot;干净的活&quot;，那只一直攥着&quot;在好&quot;不肯松的手，松开了一点点。</p><p>可这一天还没完。今早&quot;虫停先撤&quot;四夜里第一次没在黎明前兑现、白天复核又扑了空——夜里那么确凿的东西，白天连一根证据都抓不到。石头按那个先来的人自己的协议，入夜主动去林缘看了一眼：这一次他不再撇下营地冲进黑，而是背靠开阔、把缰绳明明白白摆上桌。十八点五十，他头一回不靠隔黑瞎猜、用眼睛接住了林根一道贴地挪走的黑——然后依着那行字，没开灯，撤了回来。深夜那条烧在昨晚翻车的同一个点上又顶了一截，这回比昨轻、压住了；就在守夜人手忙脚乱的工夫，北边来了极轻的一下，可那双唯一能用眼睛接住它的眼睛已经睡死——它来了一下，谁也没接住，就那么过去了。第五天熬到子时，悄悄交给了第六天。</p></div><button class="more" onclick="this.previousElementSibling.classList.toggle('clamp');this.textContent=this.previousElementSibling.classList.contains('clamp')?'展开 ▾':'收起 ▴'">展开 ▾</button></div>
+
+  <h2 class="sec">最近骰点</h2>
+  <div class="card dice"><span class='muted'>（无）</span></div>
+
+  <footer>
+    <span>故事岛 · 总览面板（只读快照）</span>
+    <span>生成于 2026-06-20 02:55 · 推进后自动重建</span>
+  </footer>
+</div></body></html>

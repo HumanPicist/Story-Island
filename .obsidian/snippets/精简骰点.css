@@ -1,0 +1,35 @@
+/* 故事岛 · 精简骰点
+ * 日志页 frontmatter 的「骰点」是会累积的长列表，在属性面板里堆得很高。
+ * 这里只把这一个属性的值区限高 + 滚动——数据原样躺在 YAML 里，
+ * build_panel / 正文 / 其它属性全不受影响，纯阅读层，可随时关闭。
+ * 依赖 Obsidian 的 data-property-key 钩子（已验证存在）。
+ */
+.metadata-property[data-property-key="骰点"] .metadata-property-value {
+  max-height: 9em;          /* 约四五行；多出来的滚动查看 */
+  overflow-y: auto;
+  align-items: flex-start;  /* ★ 取消 Obsidian 默认的 align-items:center——
+                               否则超高的 pill 容器被垂直居中，溢出对半分到上下，
+                               顶部被裁且滚不回去（吞行）。顶对齐后溢出只落底部，能滚到顶。 */
+  align-content: flex-start;/* 多行 flex 时同样从顶排起 */
+  padding-right: 4px;       /* 给滚动条留点位，不压住文字 */
+  border-radius: 6px;
+}
+
+/* 细一点的滚动条，低调些 */
+.metadata-property[data-property-key="骰点"] .metadata-property-value::-webkit-scrollbar {
+  width: 8px;
+}
+.metadata-property[data-property-key="骰点"] .metadata-property-value::-webkit-scrollbar-thumb {
+  background: rgba(127, 133, 151, .4);
+  border-radius: 8px;
+}
+
+/* 故事岛 · 面板预览加宽
+ * 只对带 cssclasses: panel-wide 的笔记（=面板预览.md）取消"可读行宽"上限，
+ * 让内嵌面板用满整栏宽，角色卡 / 动态事实卡才放得下三个一行。
+ * 其它笔记不受影响。阅读视图 + 实时预览都生效。
+ */
+.panel-wide .markdown-preview-sizer,
+.panel-wide .cm-sizer {
+  max-width: none !important;
+}

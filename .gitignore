@@ -1,0 +1,16 @@
+# ── 系统 / 编辑器垃圾 ──
+.DS_Store
+Thumbs.db
+
+# ── Python ──
+__pycache__/
+*.pyc
+
+# ── Obsidian 本地回收站 ──
+.trash/
+
+# ── Claude Code 本地足迹（每会话再生，含本地许可清单，不应随模板分发）──
+.claude/
+
+# ── Claudian per-vault 数据（每次启动写回设备ID；cloner 首次自动配置自己的）──
+.claudian/
